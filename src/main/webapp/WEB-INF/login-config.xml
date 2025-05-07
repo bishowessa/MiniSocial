@@ -1,0 +1,7 @@
+<policy>
+  <application-policy name="minisocial-domain">
+    <authentication>
+      <login-module code="com.minisocial.User.auth.CustomLoginModule" flag="required"/>
+    </authentication>
+  </application-policy>
+</policy>
