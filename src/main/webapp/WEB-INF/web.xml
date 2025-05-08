@@ -1,45 +1,7 @@
-<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-         version="3.1">
-
-    <display-name>Demo App</display-name>
-
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="3.1">
+    <display-name>MiniSocial</display-name>
     <servlet-mapping>
         <servlet-name>javax.ws.rs.core.Application</servlet-name>
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
-    
-    <login-config>
-    <auth-method>BASIC</auth-method>
-    <realm-name>minisocial-domain</realm-name>
-	</login-config>
-
-<security-constraint>
-    <web-resource-collection>
-        <web-resource-name>User Endpoints</web-resource-name>
-        <url-pattern>/api/user/*</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-        <role-name>user</role-name>
-        <role-name>admin</role-name>
-    </auth-constraint>
-</security-constraint>
-
-<security-constraint>
-    <web-resource-collection>
-        <web-resource-name>Admin Endpoints</web-resource-name>
-        <url-pattern>/api/admin/*</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-        <role-name>admin</role-name>
-    </auth-constraint>
-</security-constraint>
-
-<security-role>
-    <role-name>user</role-name>
-</security-role>
-<security-role>
-    <role-name>admin</role-name>
-</security-role>
-    
-
 </web-app>
