@@ -12,8 +12,7 @@ public class JwtUtil {
     public static String extractRole(String token) {
         try {
             String decoded = new String(Base64.getDecoder().decode(token));
-            String[] parts = decoded.split(":");
-            return parts[1]; // email:role
+            return decoded.split(":")[1];
         } catch (Exception e) {
             return null;
         }
@@ -22,8 +21,7 @@ public class JwtUtil {
     public static String extractEmail(String token) {
         try {
             String decoded = new String(Base64.getDecoder().decode(token));
-            String[] parts = decoded.split(":");
-            return parts[0]; // email:role
+            return decoded.split(":")[0];
         } catch (Exception e) {
             return null;
         }

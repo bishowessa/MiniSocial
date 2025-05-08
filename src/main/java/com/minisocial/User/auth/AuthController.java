@@ -2,9 +2,7 @@ package com.minisocial.User.auth;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
+import javax.ws.rs.core.*;
 import com.minisocial.User.User;
 import com.minisocial.User.UserService;
 
@@ -24,9 +22,11 @@ public class AuthController {
                            .entity("{\"error\":\"Email already exists\"}")
                            .build();
         }
+
         if (user.getRole() == null || user.getRole().isEmpty()) {
-            user.setRole("user"); // default role
+            user.setRole("user");
         }
+
         userService.register(user);
         return Response.status(Response.Status.CREATED)
                        .entity("{\"message\":\"User registered successfully\"}")
@@ -37,17 +37,18 @@ public class AuthController {
     @Path("/login")
     public Response login(User loginRequest) {
         User found = userService.findByEmail(loginRequest.getEmail());
+
         if (found == null || !found.getPassword().equals(loginRequest.getPassword())) {
             return Response.status(Response.Status.UNAUTHORIZED)
-                           .entity("{\"error\":\"Invalid email or password\"}")
+                           .entity("{\"error\":\"Invalid credentials\"}")
                            .build();
         }
 
-        // 👇 Simulate a token (you can replace with real JWT later)
-        String token = "token_" + found.getId() + "_" + System.currentTimeMillis();
+        String token = JwtUtil.generateToken(found.getEmail(), found.getRole());
 
-        return Response.ok("{\"message\":\"Login successful\", \"userId\":" + found.getId() +
-                           ", \"role\":\"" + found.getRole() + "\", \"token\":\"" + token + "\"}")
+        NewCookie cookie = new NewCookie("AuthToken", token, "/", "", "Auth token", 3600, false);
+        return Response.ok("{\"message\":\"Login successful\", \"token\": \"" + token + "\"}")
+                       .cookie(cookie)
                        .build();
     }
 }
